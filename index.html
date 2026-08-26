@@ -3,40 +3,42 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>KAIST vs POSTECH 회전 후 격파 설문</title>
+<title>[설문 3] KAIST vs POSTECH 회전 후 격파</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Space+Grotesk:wght@500;600;700&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+@font-face { font-family:'GmarketSans'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansLight.woff') format('woff'); font-weight:300; font-display:swap; }
+@font-face { font-family:'GmarketSans'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff'); font-weight:500; font-display:swap; }
+@font-face { font-family:'GmarketSans'; src:url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff') format('woff'); font-weight:700; font-display:swap; }
+</style>
 <style>
 :root{
-  --ink:#121110;
-  --ink-2:#19160f;
-  --panel:#1c1813;
-  --panel-2:#231e17;
-  --line:#332a20;
-  --kaist:#4a6ea3;
+  --ink:#f7f7f7;
+  --ink-2:#f7f7f7;
+  --panel:#ffffff;
+  --panel-2:#eeeeee;
+  --line:#dcdcdc;
+  --kaist:#3d5f92;
   --kaist-dark:#233c5e;
   --kaist-top:#8aa8d4;
-  --postech:#95355c;
+  --postech:#8a2a52;
   --postech-dark:#521a34;
   --postech-top:#c4779b;
-  --accent:#c9a35a;
-  --accent-dim:#8a713c;
-  --text:#f0ebe1;
-  --text-dim:#a0937f;
-  --board-a:#231d16;
-  --board-b:#1a1610;
-  --ok:#5cbf7c;
-  --font-display:'Space Grotesk','Noto Sans KR',sans-serif;
-  --font-poster:'Playfair Display','Noto Sans KR',serif;
-  --font-body:'Noto Sans KR',sans-serif;
+  --accent:#a97a2e;
+  --accent-dim:#7a5a22;
+  --text:#1c1c1c;
+  --text-dim:#6b6b6b;
+  --board-a:#eeeeee;
+  --board-b:#e2e2e2;
+  --ok:#3f9d5c;
+  --font-display:'GmarketSans','Noto Sans KR',sans-serif;
+  --font-poster:'GmarketSans','Noto Sans KR',sans-serif;
+  --font-body:'GmarketSans','Noto Sans KR',sans-serif;
 }
 *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
 html,body{margin:0;padding:0;}
 body{
-  background-color:var(--ink);
-  background-image:
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E"),
-    linear-gradient(180deg, var(--ink) 0%, var(--ink-2) 100%);
+  background-color:#f7f7f7;
   color:var(--text);
   font-family:var(--font-body);
   min-height:100vh;
@@ -47,10 +49,15 @@ body{
 .duel{display:flex; flex-wrap:wrap; gap:18px;}
 .pane{flex:1 1 260px; min-width:240px; background:var(--panel-2); border:1px solid var(--line); border-radius:12px; padding:20px;}
 .pane h3{font-family:var(--font-display); font-size:12px; letter-spacing:.08em; color:var(--text-dim); margin:0 0 14px; text-transform:uppercase; text-align:center;}
-.poster-bar{height:1px; margin-bottom:26px;
-  background:linear-gradient(90deg, transparent, var(--kaist) 30%, var(--accent) 50%, var(--postech) 70%, transparent);}
+.event-banner{
+  text-align:center; font-family:'GmarketSans','Noto Sans KR',sans-serif; font-weight:700; font-size:clamp(15px,4vw,20px);
+  letter-spacing:.03em; color:var(--text); background:var(--ink);
+  padding:14px 22px; margin:0 auto 22px; display:block;
+  width:fit-content; max-width:100%; box-sizing:border-box; line-height:1.4;
+}
+.poster-bar{height:1px; margin-bottom:26px; background:var(--line);}
 .poster-title{display:flex; align-items:center; justify-content:center; gap:16px; flex-wrap:wrap; margin:0;}
-.poster-title .k, .poster-title .p{font-family:var(--font-poster); font-weight:600; font-size:clamp(24px,6.5vw,32px); letter-spacing:.03em; line-height:1;}
+.poster-title .k, .poster-title .p{font-family:var(--font-poster); font-weight:700; font-size:clamp(24px,6.5vw,32px); letter-spacing:.03em; line-height:1;}
 .poster-title .k{color:var(--kaist);}
 .poster-title .p{color:var(--postech);}
 .poster-title .vs{font-family:var(--font-display); font-size:11px; font-weight:600; letter-spacing:.3em; color:var(--text-dim);}
@@ -63,8 +70,7 @@ body{
 .step-dot.done .n{background:var(--ok); color:#052711; border-color:var(--ok);}
 .card{background:var(--panel); border:1px solid var(--line); border-radius:6px 26px 6px 26px; padding:32px; position:relative; overflow:hidden;
   box-shadow:0 30px 60px -30px rgba(0,0,0,.6);}
-.card::before{content:''; position:absolute; top:0; left:0; right:0; height:2px;
-  background:linear-gradient(90deg, var(--kaist), var(--accent), var(--postech));}
+
 .field{margin-bottom:22px;}
 label{display:block; font-size:12px; color:var(--text-dim); margin-bottom:7px; font-family:var(--font-display); letter-spacing:.05em;}
 input[type=text]{
@@ -72,7 +78,7 @@ input[type=text]{
   color:var(--text); font-size:16px; padding:13px 14px; font-family:var(--font-body);
   transition:border-color .2s ease, box-shadow .2s ease;
 }
-input[type=text]:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(201,163,90,.15);}
+input[type=text]:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 3px rgba(169,122,46,.15);}
 .error{font-size:12px; color:var(--postech); margin-top:6px; display:none;}
 .error.show{display:block;}
 button.primary{
@@ -208,30 +214,25 @@ button.primary:active{background:var(--accent); color:#241a00; transform:scale(.
 </head>
 <body>
 <div class="wrap">
+  <div class="event-banner">과학퀴즈 경기중 이벤트 : 가위바위보 체스 튜토리얼</div>
   <div class="poster-bar"></div>
   <div class="poster-title"><span class="k">KAIST</span><span class="vs">VS</span><span class="p">POSTECH</span></div>
-  <div class="poster-sub">Science Quiz · 회전 후 격파</div>
+  <div class="poster-sub">설문 3 · Science Quiz · 회전 후 격파</div>
   <div class="subtitle">이름과 POVIS ID만 남겨도 참가 점수 10점, 회전 방향을 잘 골라 카이스트 주사위를 격파하면 100점을 드립니다.</div>
-
-  <div class="steps">
-    <div class="step-dot" id="dot1"><span class="n">1</span>참가자 정보</div>
-    <div class="step-dot" id="dot2"><span class="n">2</span>국지전</div>
-    <div class="step-dot" id="dot3"><span class="n">3</span>완료</div>
-  </div>
 
   <div class="card">
     <div id="page1">
       <div class="field">
         <label for="nameInput">이름</label>
-        <input type="text" id="nameInput" placeholder="신윤섭" autocomplete="name">
+        <input type="text" id="nameInput" placeholder="홍길동" autocomplete="name">
       </div>
       <div class="field">
         <label for="studentIdInput">학번</label>
-        <input type="text" id="studentIdInput" placeholder="20260123" inputmode="numeric" maxlength="8" autocomplete="off">
+        <input type="text" id="studentIdInput" placeholder="202xxxxx" inputmode="numeric" maxlength="8" autocomplete="off">
       </div>
       <div class="field">
         <label for="idInput">POVIS ID</label>
-        <input type="text" id="idInput" placeholder="shinyunseob" autocomplete="off">
+        <input type="text" id="idInput" placeholder="honggildong" autocomplete="off">
         <div class="error" id="page1Error">이름, POVIS ID를 모두 입력하고 학번은 숫자 8자리로 적어 주세요.</div>
       </div>
       <button class="primary" id="toStep2">국지전으로 이동</button>
@@ -557,7 +558,8 @@ function renderBoard(){
 document.getElementById('undoBtn').addEventListener('click', undoLastStep);
 
 function setDot(n, cls){
-  document.getElementById('dot'+n).className = 'step-dot' + (cls ? ' '+cls : '');
+  const el = document.getElementById('dot'+n);
+  if(el) el.className = 'step-dot' + (cls ? ' '+cls : '');
 }
 
 document.getElementById('studentIdInput').addEventListener('input', function(e){
@@ -659,7 +661,7 @@ function restartFromRotation(){
 }
 document.getElementById('restartBtn').addEventListener('click', restartFromRotation);
 
-const GOOGLE_FORM_ID = '1FAIpQLScXQPZjJbcZ2cx_IAqWZJiu-LEo5vcNgdr2w_T_lHXvrwCfCA';
+const GOOGLE_FORM_ID = '1FAIpQLSfu7pR_AjzOJN_fe7cR2h7-gxNHinPRuGZEGWf15euMu3ID8w';
 const GOOGLE_FORM_ENTRY = {
   name: 'entry.866975153',
   povisId: 'entry.1745020199',
