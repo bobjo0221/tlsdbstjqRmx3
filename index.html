@@ -47,7 +47,7 @@ body{
 .wrap{max-width:760px; margin:0 auto;}
 #page1, #page3{max-width:480px; margin:0 auto;}
 .duel{display:flex; flex-wrap:wrap; gap:18px;}
-.pane{flex:1 1 260px; min-width:240px; background:var(--panel-2); border:1px solid var(--line); border-radius:12px; padding:20px;}
+.pane{flex:1 1 260px; min-width:240px; background:#f7f7f7; border:1px solid var(--line); border-radius:12px; padding:20px;}
 .pane h3{font-family:var(--font-display); font-size:12px; letter-spacing:.08em; color:var(--text-dim); margin:0 0 14px; text-transform:uppercase; text-align:center;}
 .event-banner{
   text-align:center; font-family:'GmarketSans','Noto Sans KR',sans-serif; font-weight:700; font-size:clamp(15px,4vw,20px);
@@ -91,8 +91,10 @@ button.primary:hover{background:var(--accent); color:#241a00;}
 button.primary:active{background:var(--accent); color:#241a00; transform:scale(.98);}
 .legend{display:flex; justify-content:space-between; font-size:11px; color:var(--text-dim); margin-bottom:10px; padding:0 2px; font-family:var(--font-display);}
 .legend .b{color:var(--kaist);} .legend .r{color:var(--postech);}
-.board{display:grid; grid-template-columns:repeat(8,1fr); grid-template-rows:repeat(8,1fr); gap:2px; aspect-ratio:1/1; width:100%;
-  border-radius:6px; overflow:hidden; border:2px solid var(--line); touch-action:manipulation;}
+.board{display:grid; grid-template-columns:repeat(6,1fr); grid-template-rows:repeat(5,1fr); gap:2px; aspect-ratio:6/5; width:100%; max-width:300px; margin:0 auto;
+  border-radius:6px; overflow:hidden; border:2px solid var(--line); touch-action:manipulation;
+  transition:max-width .3s ease;}
+.board.compact{ max-width:246px; }
 .cell{position:relative; display:flex; align-items:center; justify-content:center; background:var(--board-a); user-select:none;}
 .cell.alt{background:var(--board-b);}
 .cell.selectable{cursor:pointer;}
@@ -105,14 +107,15 @@ button.primary:active{background:var(--accent); color:#241a00; transform:scale(.
   0%,100%{ filter:blur(0px); opacity:.9; transform:scale(1); }
   50%{ filter:blur(3px); opacity:.28; transform:scale(.92); }
 }
-.piece{width:76%; height:76%; border-radius:8px; display:flex; align-items:center; justify-content:center;
+.piece{width:92%; height:92%; border-radius:8px; display:flex; align-items:center; justify-content:center;
   font-size:clamp(15px,4vw,24px); position:relative; color:#fff;
   box-shadow:
     inset 0 0 0 1px rgba(255,255,255,.18),
     inset 0 5px 8px rgba(255,255,255,.18),
     inset 0 -6px 10px rgba(0,0,0,.35),
     0 3px 6px rgba(0,0,0,.4);
-  transition:transform .15s ease;}
+  transition:transform .15s ease, font-size .3s ease;}
+.board.compact .piece{ font-size:clamp(12px,3.3vw,20px); }
 .piece.blue{background:radial-gradient(120% 130% at 28% 20%, rgba(255,255,255,.4), rgba(255,255,255,0) 48%), linear-gradient(155deg, var(--kaist), var(--kaist-dark));}
 .piece.red{background:radial-gradient(120% 130% at 28% 20%, rgba(255,255,255,.4), rgba(255,255,255,0) 48%), linear-gradient(155deg, var(--postech), var(--postech-dark));}
 .piece .ico{filter:drop-shadow(0 1px 2px rgba(0,0,0,.35));}
@@ -163,7 +166,7 @@ button.primary:active{background:var(--accent); color:#241a00; transform:scale(.
 }
 .rotate-center{
   display:flex; align-items:center; justify-content:center;
-  background:var(--panel); border:1px solid var(--line); border-radius:8px;
+  background:transparent; border:none;
   touch-action:none; cursor:grab; width:110px; height:110px;
 }
 .rotate-center.locked{ cursor:default; touch-action:auto; }
@@ -186,10 +189,7 @@ button.primary:active{background:var(--accent); color:#241a00; transform:scale(.
 .rotate-die-stage{ --size:76px; width:var(--size); height:var(--size); }
 @keyframes isoBounce{0%{transform:rotateX(-30deg) rotateY(-45deg) scale(1);}45%{transform:rotateX(-30deg) rotateY(-45deg) scale(1.18);}100%{transform:rotateX(-30deg) rotateY(-45deg) scale(1);}}
 .rotate-die-stage .iso-cube{ transition:transform .3s ease; }
-@keyframes bounceCW{0%{transform:rotateX(-30deg) rotateY(-45deg) rotateZ(0deg) scale(1);}45%{transform:rotateX(-30deg) rotateY(-45deg) rotateZ(38deg) scale(1.14);}100%{transform:rotateX(-30deg) rotateY(-45deg) rotateZ(0deg) scale(1);}}
-@keyframes bounceCCW{0%{transform:rotateX(-30deg) rotateY(-45deg) rotateZ(0deg) scale(1);}45%{transform:rotateX(-30deg) rotateY(-45deg) rotateZ(-38deg) scale(1.14);}100%{transform:rotateX(-30deg) rotateY(-45deg) rotateZ(0deg) scale(1);}}
-.rotate-die-stage.bounce-CW .iso-cube{ animation:bounceCW .55s ease; }
-.rotate-die-stage.bounce-CCW .iso-cube{ animation:bounceCCW .55s ease; }
+.rotate-die-stage.bounce .iso-cube{ animation:isoBounce .3s ease; }
 .rotate-die-stage .iso-face{ font-size:calc(var(--size) * 0.36); }
 
 .hint b{color:var(--text);}
@@ -214,11 +214,12 @@ button.primary:active{background:var(--accent); color:#241a00; transform:scale(.
 </head>
 <body>
 <div class="wrap">
+  <div id="pageHeader">
   <div class="event-banner">과학퀴즈 경기중 이벤트 : 가위바위보 체스 튜토리얼</div>
   <div class="poster-bar"></div>
   <div class="poster-title"><span class="k">KAIST</span><span class="vs">VS</span><span class="p">POSTECH</span></div>
-  <div class="poster-sub">설문 3 · Science Quiz · 회전 후 격파</div>
   <div class="subtitle">이름과 POVIS ID만 남겨도 참가 점수 10점, 회전 방향을 잘 골라 카이스트 주사위를 격파하면 100점을 드립니다.</div>
+  </div>
 
   <div class="card">
     <div id="page1">
@@ -249,13 +250,12 @@ button.primary:active{background:var(--accent); color:#241a00; transform:scale(.
           <div id="rotatePanel">
             <h3>1. 회전 방향 선택</h3>
             <div class="hint">
-              이동을 시작하기 전에, 빨간 <b>POSTECH 주사위를 시계방향 또는 반시계방향으로 스와이프</b>해서 회전시키세요.
-              제자리에서 회전만 하고 이동은 아직 하지 않습니다. 어느 쪽으로 돌리느냐에 따라 이후 이동 가능한 칸수와 윗면이 달라집니다.
+              카이스트측 말을 잡기 위해 90도 회전 아이템을 사용하세요! 윗면에 따라 이동횟수가 달라짐을 고려해 정해보세요!
             </div>
             <div class="rotate-single">
               <div class="rotate-center" id="rotateCenterStage"></div>
             </div>
-            <div class="swipe-hint" id="swipeHint">👆 주사위를 오른쪽으로 스와이프하면 시계방향, 왼쪽으로 스와이프하면 반시계방향으로 회전합니다</div>
+            <div class="swipe-hint" id="swipeHint"></div>
             <div class="rotate-confirm hidden" id="rotateConfirm">
               <button class="rotate-retry-btn" id="rotateRetryBtn"><span class="spin-icon">↺</span> 되돌리기</button>
               <button class="primary" id="rotateConfirmBtn">이 방향으로 결정하기</button>
@@ -309,7 +309,8 @@ button.primary:active{background:var(--accent); color:#241a00; transform:scale(.
 (function(){
 "use strict";
 
-const SIZE = 8;
+const COLS = 6;
+const ROWS = 5;
 const STEPS = { '가위':3, '바위':4, '보':5 };
 const BEATS = { '가위':'보', '바위':'가위', '보':'바위' };
 const FACE_ICON = {
@@ -325,8 +326,8 @@ const DIRS = [
 ];
 
 let name = '', povisId = '', studentId = '';
-let kaist = { row:4, col:5, top:'가위', vert:'보', horiz:'바위' };
-let postech = { row:2, col:2, top:'가위', horiz:'바위', vert:'보' };
+let kaist = { row:3, col:4, top:'가위', vert:'보', horiz:'바위' };
+let postech = { row:1, col:1, top:'가위', horiz:'바위', vert:'보' };
 let rotationChosen = false;
 let totalSteps = 0;
 let remaining = 0;
@@ -356,24 +357,10 @@ function setDieFaces(stage, topVal, vertVal, horizVal){
   stage.querySelector('.iso-face.left').innerHTML = FACE_ICON[horizVal];
   stage.querySelector('.iso-face.right').innerHTML = FACE_ICON[horizVal];
 }
-function bounceStage(stage, dir){
-  ['bounce-CW','bounce-CCW'].forEach(function(c){ stage.classList.remove(c); });
+function bounceStage(stage){
+  stage.classList.remove('bounce');
   void stage.offsetWidth;
-  stage.classList.add('bounce-' + dir);
-}
-/* 회전 패널 전용: 3면이 한 바퀴 순환하는 회전 (시계/반시계) */
-function cycleRotate(dir){
-  if(dir === 'CW'){
-    const t = postech.top;
-    postech.top = postech.horiz;
-    postech.horiz = postech.vert;
-    postech.vert = t;
-  } else {
-    const t = postech.top;
-    postech.top = postech.vert;
-    postech.vert = postech.horiz;
-    postech.horiz = t;
-  }
+  stage.classList.add('bounce');
 }
 /* 회전 패널 전용 3D 주사위 */
 let rotateDieStage = null;
@@ -404,7 +391,7 @@ function buildPieces(){
   kaistEl.innerHTML = FACE_ICON[kaist.top];
 }
 
-function inBounds(r,c){ return r>=0 && r<SIZE && c>=0 && c<SIZE; }
+function inBounds(r,c){ return r>=0 && r<ROWS && c>=0 && c<COLS; }
 function isKaistCell(r,c){ return kaist.row===r && kaist.col===c; }
 function isAdjacentToKaist(r,c){
   return (Math.abs(r-kaist.row)===1 && c===kaist.col) || (Math.abs(c-kaist.col)===1 && r===kaist.row);
@@ -446,6 +433,7 @@ function doStep(dir, nr, nc){
   if(remaining > 0){
     const next = validNextSteps();
     if(next.length === 0){
+      locked = true;
       renderBoard();
       finishMove();
       return;
@@ -453,6 +441,7 @@ function doStep(dir, nr, nc){
     renderBoard();
     return;
   }
+  locked = true;
   renderBoard();
   finishMove();
 }
@@ -506,9 +495,9 @@ function buildBoardGrid(){
   const board = document.getElementById('board');
   board.innerHTML = '';
   cellEls = [];
-  for(let r=0;r<SIZE;r++){
+  for(let r=0;r<ROWS;r++){
     const rowArr = [];
-    for(let c=0;c<SIZE;c++){
+    for(let c=0;c<COLS;c++){
       const cell = document.createElement('div');
       cell.className = 'cell' + ((r+c)%2===1 ? ' alt' : '');
       board.appendChild(cell);
@@ -528,8 +517,8 @@ function renderBoard(){
   let targets = [];
   if(rotationChosen && !locked) targets = validNextSteps();
 
-  for(let r=0;r<SIZE;r++){
-    for(let c=0;c<SIZE;c++){
+  for(let r=0;r<ROWS;r++){
+    for(let c=0;c<COLS;c++){
       const cell = cellEls[r][c];
       cell.querySelectorAll('.preview-die').forEach(function(n){ n.remove(); });
       const match = targets.find(function(t){ return t.row===r && t.col===c; });
@@ -582,6 +571,8 @@ document.getElementById('toStep2').addEventListener('click', function(){
   err.classList.remove('show');
   document.getElementById('page1').classList.add('hidden');
   document.getElementById('page2').classList.remove('hidden');
+  document.getElementById('pageHeader').classList.add('hidden');
+  document.getElementById('board').classList.add('compact');
   setDot(1,'done'); setDot(2,'active');
   buildRotateDie();
   renderBoard();
@@ -589,10 +580,15 @@ document.getElementById('toStep2').addEventListener('click', function(){
 
 let swiped = false;
 
-function previewSwipe(dir){
-  cycleRotate(dir);
+function previewSwipe(action){
+  if(action === 'SPIN'){
+    // 옆면을 좌우로 돌리는 스핀: 윗면(가위)은 그대로, 보/바위만 서로 자리 교체
+    const t = postech.vert; postech.vert = postech.horiz; postech.horiz = t;
+  } else {
+    applyRoll(action);
+  }
   setDieFaces(rotateDieStage, postech.top, postech.vert, postech.horiz);
-  bounceStage(document.getElementById('rotateCenterStage').firstChild, dir);
+  bounceStage(document.getElementById('rotateCenterStage').firstChild);
   swiped = true;
   document.getElementById('rotateCenterStage').classList.add('locked');
   document.getElementById('swipeHint').classList.add('hidden');
@@ -603,6 +599,7 @@ function confirmRotation(){
   rotationChosen = true;
   totalSteps = STEPS[postech.top];
   remaining = totalSteps;
+  document.getElementById('board').classList.remove('compact');
   renderBoard();
   document.getElementById('rotatePanel').classList.add('hidden');
   document.getElementById('movePanel').classList.remove('hidden');
@@ -610,7 +607,7 @@ function confirmRotation(){
 document.getElementById('rotateConfirmBtn').addEventListener('pointerup', confirmRotation);
 
 function retrySwipe(){
-  postech = { row:2, col:2, top:'가위', horiz:'바위', vert:'보' };
+  postech = { row:1, col:1, top:'가위', horiz:'바위', vert:'보' };
   swiped = false;
   buildRotateDie();
   document.getElementById('rotateCenterStage').classList.remove('locked');
@@ -621,10 +618,32 @@ document.getElementById('rotateRetryBtn').addEventListener('pointerup', retrySwi
 
 (function setupRotateSwipe(){
   const stageEl = document.getElementById('rotateCenterStage');
-  let dragging = false, startX = 0, startY = 0;
+  let dragging = false, startX = 0, startY = 0, zone = null;
+
+  // die-stage 중심 기준 터치 시작 위치의 각도로 어느 면(윗면/좌측면/우측면)을 눌렀는지 판별
+  function classifyZone(clientX, clientY){
+    const rect = stageEl.getBoundingClientRect();
+    const cx = rect.left + rect.width/2, cy = rect.top + rect.height/2;
+    const dx = clientX - cx, dy = clientY - cy;
+    const angle = Math.atan2(dy, dx) * 180 / Math.PI; // -180..180, 0=오른쪽, 90=아래, -90=위
+    if(angle > -150 && angle <= -30) return 'top';         // 윗면(가위) 영역
+    if(angle > -30 && angle <= 90) return 'right';          // 우측면(가로/horiz) 영역
+    return 'left';                                          // 좌측면(세로/vert) 영역
+  }
+
+  // 스와이프 델타를 8방향(E,SE,S,SW,W,NW,N,NE)으로 분류
+  function classifySwipeDir8(dx, dy){
+    let angle = Math.atan2(dy, dx) * 180 / Math.PI; // -180..180
+    if(angle < 0) angle += 360;
+    const idx = Math.round(angle / 45) % 8;
+    const dirs = ['E','SE','S','SW','W','NW','N','NE'];
+    return dirs[idx];
+  }
+
   stageEl.addEventListener('pointerdown', function(e){
     if(swiped) return;
     dragging = true; startX = e.clientX; startY = e.clientY;
+    zone = classifyZone(e.clientX, e.clientY);
     try{ stageEl.setPointerCapture(e.pointerId); }catch(err){}
   });
   stageEl.addEventListener('pointermove', function(e){
@@ -636,14 +655,32 @@ document.getElementById('rotateRetryBtn').addEventListener('pointerup', retrySwi
     const dx = e.clientX - startX, dy = e.clientY - startY;
     const threshold = 24;
     if(Math.max(Math.abs(dx), Math.abs(dy)) < threshold) return;
-    const dir = dx >= 0 ? 'CW' : 'CCW';
+
+    let dir = null;
+    if(zone === 'top'){
+      // 윗면(가위)에서 시작: 대각선 아래-왼쪽 / 아래-오른쪽 스와이프에만 반응
+      if(dy <= 0) return; // 아래쪽 성분이 없으면 무시
+      dir = dx < 0 ? 'N' : 'E';
+    } else if(zone === 'left'){
+      // 좌측면(보)에서 시작: 좌/우/대각선 아래-오른쪽=제자리 스핀, 위=보가 윗면으로 굴러 올라감
+      const swipeDir = classifySwipeDir8(dx, dy);
+      if(swipeDir === 'N' || swipeDir === 'NE') dir = 'N';
+      else if(swipeDir === 'W' || swipeDir === 'E' || swipeDir === 'SE') dir = 'SPIN';
+      else return;
+    } else {
+      // 우측면(바위)에서 시작: 좌/우/대각선 아래-왼쪽=제자리 스핀, 위=바위가 윗면으로 굴러 올라감
+      const swipeDir = classifySwipeDir8(dx, dy);
+      if(swipeDir === 'N' || swipeDir === 'NW') dir = 'E';
+      else if(swipeDir === 'W' || swipeDir === 'E' || swipeDir === 'SW') dir = 'SPIN';
+      else return;
+    }
     previewSwipe(dir);
   });
   stageEl.addEventListener('pointercancel', function(){ dragging = false; });
 })();
 
 function restartFromRotation(){
-  postech = { row:2, col:2, top:'가위', horiz:'바위', vert:'보' };
+  postech = { row:1, col:1, top:'가위', horiz:'바위', vert:'보' };
   rotationChosen = false;
   swiped = false;
   totalSteps = 0;
@@ -656,6 +693,7 @@ function restartFromRotation(){
   document.getElementById('rotateConfirm').classList.add('hidden');
   document.getElementById('movePanel').classList.add('hidden');
   document.getElementById('rotatePanel').classList.remove('hidden');
+  document.getElementById('board').classList.add('compact');
   buildRotateDie();
   renderBoard();
 }
